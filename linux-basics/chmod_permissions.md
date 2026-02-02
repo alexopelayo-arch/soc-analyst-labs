@@ -17,4 +17,3 @@ This section documents common Linux file permissions and their security relevanc
 ## SOC Insight
 Improper file permissions can introduce serious security risks.  
 Permissions such as **777** allow any user to modify and execute files and are considered a **red flag** during SOC investigations.
-
