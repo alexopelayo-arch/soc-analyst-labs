@@ -1,6 +1,7 @@
 # SOC Analyst Labs – Oscar Pelayo
 
-This repository contains hands-on labs and exercises focused on developing skills required for a SOC Analyst role.
+This repository contains hands-on labs focused on defensive security (Blue Team), designed to demonstrate technical skills and analytical thinking required for SOC Analyst Level 1 and Level 2 roles.
+
 
 ## Topics covered
 - Linux fundamentals for SOC Analysts
