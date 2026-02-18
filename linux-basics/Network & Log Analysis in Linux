@@ -1,0 +1,37 @@
+# 🛡️ Cybersecurity Lab: Network & Log Analysis in Linux
+
+## 📋 Overview
+This project documents my hands-on training as a **SOC Analyst**, focusing on attack surface monitoring and intrusion detection using Linux environments (Google Cloud Shell).
+
+## 🔍 Exercise 1: Port & Service Auditing (Attack Surface)
+As a first step in a security audit, I identified the services "listening" for external connections to map the potential attack surface.
+
+**Command executed:**
+`ss -tulpn`
+
+### Technical Analysis:
+| Column | Technical Meaning | Observation |
+| :--- | :--- | :--- |
+| **Local Address** | IP and Port where the service is listening. | Identified ports on `0.0.0.0` (open to the world). |
+| **Peer Address** | Remote address of the connecting client. | Value `*:*` indicates the port is in `LISTEN` state (idle). |
+| **State: LISTEN** | The port is open and available. | Port **22 (SSH)** was found active. |
+
+**Security Finding:** High ports (e.g., 8998, 38465) were detected on `127.0.0.1`. Since they are bound to *localhost*, these services are not visible from the internet, complying with system hardening best practices.
+
+---
+
+## 🕵️ Exercise 2: Brute Force Detection (Log Forensics)
+I simulated a scenario where a server receives multiple failed login attempts followed by a successful one.
+
+**IP Filtering One-Liner:**
+```bash
+grep "401" access_log.txt | awk '{print $1}' | sort | uniq -c | sort -nr
+### 🕵️ Incident Investigation: Brute Force Detection
+In this scenario, I analyzed a web server log to identify suspicious patterns. By correlating failed login attempts with a final successful entry, I identified a successful **Brute Force Attack**.
+
+#### Forensic Findings:
+* **Identification:** TheIP `192.168.1.10` generated multiple **401 (Unauthorized)** status codes in a short period, indicating an automated attempt to guess credentials.
+* **Intrusion Confirmation:** After filtering for the **200 (OK)** status code, I confirmed that the same attacker IP gained successful access only seconds after the failed attempts.
+* **Time Correlation:** The transition from `401` to `200` within a 20-second window confirms the breach.
+
+> **Action Taken:** In a real-world SOC environment, this would trigger an immediate **Incident Response** protocol: isolating the affected account, blocking the source IP via Firewall, and forced credential reset.
