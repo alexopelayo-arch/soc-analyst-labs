@@ -1,0 +1,36 @@
+## 🛡️ Exercise: SSH Session Termination Audit
+Monitoring when and where sessions are closed is critical for identifying session hijacking or automated malicious activity.
+
+**Command executed:**
+```bash
+grep "closed by" /var/log/auth.log | awk -F" " '{print "Access Date:" $1 "| Host:", $2}'
+
+I transformed the raw system logs into a structured format for better readability:
+
+Log Output	Analysis
+Access Date: 2026-02-18T18:08:24...	Precise timestamp of the session termination.
+Host: cs-11673031153-default	Identification of the specific asset (Google Cloud Shell instance).
+
+---
+
+## 🛠️ Tool Comparison: AWK vs. CUT
+In this section, I explore the differences between `awk` and `cut` for forensic data extraction.
+
+### Case 1: Formatted Reporting (AWK)
+When I need to create a human-readable report with custom labels, `awk` is the best choice.
+**Command:**
+`grep "closed by" /var/log/auth.log | awk -F" " '{print "Access Date:" $1 "| Host:", $2}'`
+
+### Case 2: High-Speed Precision Extraction (CUT)
+When I only need raw data without extra text, `cut` is more efficient. Here I use a "Double Cut" to isolate the Year and Month from the timestamp.
+
+**Command:**
+```bash
+grep "closed by" /var/log/auth.log | cut -d " " -f 1 | cut -d "-" -f 1,2
+
+Feature	              AWK	                   CUT
+Output Style	Access Date: 2026-02-18...	   2026-02
+Labels	      Can add custom text/labels	   Raw data only
+Complexity	  High (Powerful script engine)	 Low (Fast stream editor)
+
+I prefer awk for final security reports and cut for quick scripts or when I need to chain multiple filters to clean specific data points like IPs or dates.
