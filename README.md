@@ -8,7 +8,8 @@ This repository contains hands-on labs focused on defensive security (Blue Team)
 - Log analysis (auth.log, syslog)
 - User and permission management
 - Incident detection and basic response
-- SIEM fundamentals (Splunk / Elastic)
+- SIEM fundamentals Microsoft Sentinel
+- Python
 
 ## Skill level
 Beginner to Intermediate
