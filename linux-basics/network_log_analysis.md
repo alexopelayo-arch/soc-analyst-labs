@@ -14,3 +14,6 @@ To ensure that only authorized services are communicating over the network, we c
 ```bash
 # Displaying all listening TCP/UDP ports
 netstat -tuln
+
+# Extracting specific timestamps from connection logs
+grep "closed by" /var/log/auth.log | cut -d " " -f 1 | cut -d "-" -f 1,2
